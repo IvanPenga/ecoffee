@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './pages/App';
+import Test from './pages/Test';
 import reportWebVitals from './reportWebVitals';
 require('dotenv').config();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Test />
   </React.StrictMode>,
   document.getElementById('root')
 );
