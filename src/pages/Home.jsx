@@ -1,12 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserList from "../components/user/UserList";
 
 const connection = new RTCPeerConnection({
   iceServers: [{urls: "stun:stun.1.google.com:19302"}]
 });
-
-let localoffer = '';
-let localanswer = '';
 
 const Home = ({ nickname, socket }) => {
 
@@ -58,7 +55,7 @@ const Home = ({ nickname, socket }) => {
 
 
 
-  }, [socket, connection]);
+  }, [socket]);
 
   const open = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
@@ -88,7 +85,6 @@ const Home = ({ nickname, socket }) => {
     });
     
 
-    localoffer = offer;
     connection.setLocalDescription(offer);
 
 
@@ -114,8 +110,6 @@ const Home = ({ nickname, socket }) => {
 
     await connection.setLocalDescription(answer);
 
-    
-    localanswer = answer;
     
   });
 
