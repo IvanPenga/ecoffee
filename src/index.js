@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
+require('dotenv').config();
 
 ReactDOM.render(
   <React.StrictMode>

@@ -130,9 +130,8 @@ const Stream = ({ navigation }) => {
 
   }, [stream, connection]);
 
-  const handleLoad = useCallback(() => {
+  const handleLoad = useCallback(async() => {
 
-    // navigator.clipboard.writeText("hello world")
 
 
     const { answer, candidates } = JSON.parse(textareaRef.current.value);

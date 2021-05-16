@@ -1,13 +1,31 @@
-import { useCallback, useState } from "react";
-import Stream from "../components/stream/Stream"
+import { useEffect, useState } from "react";
+import Login from "../components/login/Login";
+import Home from './Home';
+import socketIOClient from 'socket.io-client';
+
+const host = process.env.REACT_APP_SIGNALING_SERVER;
 
 const App = () => {
 
+  const [socket, setSocket] = useState();
+  const [nickname, setNickname] = useState(() => localStorage.getItem('nickname'));
 
+  const handleOnLogin = (nickname) => {
+    localStorage.setItem('nickname', nickname);
+    setNickname(nickname);
+  };
+
+  useEffect(() => {
+    setSocket(socketIOClient(host, {
+      withCredentials: true,
+      extraHeaders: { 'ecoffee-nickname': nickname }
+    }));
+  }, [nickname]);
 
   return (
     <div className="App">
-      <Stream />
+      { process.env.REACT_APP_SIGNALING_SERVER }
+      { nickname ? <Home nickname={nickname} socket={socket} /> : <Login onLogin={handleOnLogin} /> }
     </div>
   );
 }
