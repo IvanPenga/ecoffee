@@ -15,6 +15,8 @@ const App = () => {
     setNickname(nickname);
   };
 
+  console.log(process.env);
+
   useEffect(() => {
     setSocket(socketIOClient(host, {
       withCredentials: true,
