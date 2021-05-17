@@ -5,19 +5,38 @@ import React, { useState } from 'react';
 const Login = ({ onLogin }) => {
 
   const [nickname, setNickname] = useState();
+  const [disabled, setDisabled] = useState(true);
+
+  const isValidName = (name) => {
+    return name && name.length >= 1;
+  }
 
   const handleOnChange = (e) => {
-    setNickname(e.target.value);
+    const name = e.target.value;
+    setDisabled(!isValidName(name));
+    setNickname(name);
   };
 
+  const handleKeyDown = ({ key }) => {
+    if (key === 'Enter') handleOnLogin();
+  }
+
   const handleOnLogin = () => {
-    onLogin && onLogin(nickname);
+    if (isValidName(nickname) && onLogin) {
+      onLogin(nickname);
+    }
   };
 
   return (
     <div className={styles.login}>
-      <TextField onChange={handleOnChange} variant="standard" label="Enter your nickname" />
-      <Button onClick={handleOnLogin} variant="contained" color="primary">Enter</Button>
+      <TextField 
+        onKeyDown={handleKeyDown}
+        onChange={handleOnChange} 
+        variant="outlined" 
+        size="small" 
+        label="Nickname" 
+      />
+      <Button disabled={disabled} onClick={handleOnLogin} variant="contained" color="primary">Enter</Button>
     </div>
   );
 }

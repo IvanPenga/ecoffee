@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Test from './pages/Test';
+import Chat from './components/chat/Chat';
+import Message from './components/chat/Message';
+import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
-require('dotenv').config();
+import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Test />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

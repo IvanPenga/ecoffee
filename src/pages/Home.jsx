@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import Chat from "../components/chat/Chat";
 import UserList from "../components/user/UserList";
 
 const connection = new RTCPeerConnection({
-  iceServers: [{urls: "stun:stun.1.google.com:19302"}]
+  iceServers: [ {urls: "stun:stun.1.google.com:19302"} ]
 });
 
 const Home = ({ nickname, socket }) => {
@@ -124,6 +125,7 @@ const Home = ({ nickname, socket }) => {
       <button onClick={open}>
         OPEN
       </button>
+      <Chat socket={socket} />
     </div>
   );
 }

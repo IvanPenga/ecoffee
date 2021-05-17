@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Login from "../components/login/Login";
 import Home from './Home';
 import socketIOClient from 'socket.io-client';
+import styles from './index.module.scss';
 
 const host = process.env.REACT_APP_SIGNALING_SERVER;
 
@@ -11,11 +12,11 @@ const App = () => {
   const [nickname, setNickname] = useState(() => localStorage.getItem('nickname'));
 
   const handleOnLogin = (nickname) => {
-    localStorage.setItem('nickname', nickname);
-    setNickname(nickname);
+    if (nickname) {
+      localStorage.setItem('nickname', nickname);
+      setNickname(nickname);
+    }
   };
-
-  console.log(process.env);
 
   useEffect(() => {
     setSocket(socketIOClient(host, {
@@ -25,8 +26,7 @@ const App = () => {
   }, [nickname]);
 
   return (
-    <div className="App">
-      { process.env.REACT_APP_SIGNALING_SERVER }
+    <div className={styles.app}>
       { nickname ? <Home nickname={nickname} socket={socket} /> : <Login onLogin={handleOnLogin} /> }
     </div>
   );
