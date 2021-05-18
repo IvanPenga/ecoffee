@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Chat from "../components/chat/Chat";
 import UserList from "../components/user/UserList";
+import styles from './index.module.scss';
 
 const connection = new RTCPeerConnection({
   iceServers: [ {urls: "stun:stun.1.google.com:19302"} ]
@@ -115,16 +116,18 @@ const Home = ({ nickname, socket }) => {
   });
 
   return (
-    <div className="home">
-      <UserList users={users} onCall={handleOnCall} />
-      { offer && <button onClick={handleAnswer}>Answer</button> }
-      { callerId && `Caller: ${callerId}` }
-      <video ref={localVideoRef} autoPlay playsInline />
-      <video ref={remoteVideoRef} autoPlay playsInline />
+    <div className={styles.home}>
+      <div>
+        <UserList users={users} onCall={handleOnCall} />
+        { offer && <button onClick={handleAnswer}>Answer</button> }
+        { callerId && `Caller: ${callerId}` }
+        <video ref={localVideoRef} autoPlay playsInline />
+        <video ref={remoteVideoRef} autoPlay playsInline />
 
-      <button onClick={open}>
-        OPEN
-      </button>
+        <button onClick={open}>
+          OPEN
+        </button>
+      </div>
       <Chat socket={socket} />
     </div>
   );

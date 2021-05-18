@@ -9,14 +9,24 @@ const Chat = ({ socket }) => {
   const [messages, setMessages] = useState([]);
 
   const inputRef = useRef();
+  const messagesRef = useRef();
 
-  const handleOnKeyDown = useCallback(({ key }) => {
-    if (key === 'Enter') { 
+  const sendMessage = () => {
+    if (message) {
       socket?.emit('message', message);
       setMessages((prev) => [...prev, { message, nickname: 'You', sender: true }]);
       inputRef.current.value = '';
-    };
-  }, [message, socket]);
+      setMessage('');
+    }
+  };
+
+  useEffect(() => {
+    messagesRef.current?.scrollIntoView();
+  }, [messages]);
+
+  const handleOnKeyDown = useCallback(({ key }) => {
+    if (key === 'Enter') { sendMessage(); };
+  }, [sendMessage]);
 
   const handleOnChange = useCallback(({ target }) => {
     setMessage(target.value);
@@ -35,9 +45,11 @@ const Chat = ({ socket }) => {
     <div className={styles.chat}>
       <div className={styles.messages}>
         { messages.map((message) => <Message {...message} />) }
+        <div ref={messagesRef} />
       </div>
       <div className={styles.messageInput}>
         <TextField inputRef={inputRef} onChange={handleOnChange} onKeyDown={handleOnKeyDown} variant="outlined" size="small" />
+        <Button onClick={sendMessage} variant="contained" color="primary">Send</Button>
       </div>
     </div>
   );

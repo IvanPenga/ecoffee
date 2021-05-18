@@ -1,37 +1,42 @@
 .chat {
-  max-width: 500px;
+  border-radius: 24px;
+  border: 1px solid tomato;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 80px);
+  padding: 12px 24px;
+  width: 500px;
 }
 
 .messageInput {
-  & > input[type=text] {
-    border-radius: 24px;
-    border: 1px thistle solid;
-    margin: 2px;
-    max-width: 300px;
-    padding: 8px 12px;
-    outline: none;
+  display: flex;
+  margin-top: 12px;
+
+  :first-child {
+    flex-grow: 1;
   }
 
+  button {
+    margin-left: 8px;
+  }
 }
 
 .messages {
   display: flex;
   flex-direction: column;
-  max-width: 800px;
-  height: 500px;
-  max-height: 500px;
   overflow-y: auto;
+  flex-grow: 1;
 }
 
 .message {
   align-self: flex-start;
-  // border-radius: 24px;
   border-bottom: 1px thistle solid;
   margin: 2px;
   max-width: 300px;
-  width: 300px;
   padding: 8px 12px;
   position: relative;
+  width: 300px;
 
   &__sender {
     align-self: flex-end;
