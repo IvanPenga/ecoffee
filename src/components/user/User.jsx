@@ -1,12 +1,11 @@
+import { Button } from '@material-ui/core';
 import styles from './index.module.scss';
 
 const User = ({ id, nickname, onCall }) => {
   return (
-    <div className={styles.user}>
-      <p>Nickname - {id}</p>
-      <p>{nickname}</p>
-      <button onClick={() => onCall(id)}>Make call</button>
-    </div>
+    <Button className={styles.user} variant="contained" color="primary" onClick={() => onCall(id)}>
+      Video call with {nickname}
+    </Button>
   );
 }
 

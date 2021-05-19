@@ -22,6 +22,10 @@ const Home = ({ nickname, socket }) => {
 
     const queue = [];
 
+    socket?.on('user-enter', (user) => setUsers((prev) => [...prev, user]));
+    socket?.on('user-left', (user) => setUsers((prev) => prev.splice(prev.findIndex(s => s.id === user.id), 1)));
+
+
     socket?.on('welcome', (users) => setUsers(users));
     socket?.on('offer', ({ offer, callerId }) => {
       console.log('Recieve offer', offer, callerId); 
@@ -59,14 +63,11 @@ const Home = ({ nickname, socket }) => {
 
   }, [socket]);
 
-  const open = async () => {
+  const handleOnCall = (async (id) => {
+
     const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
     setStream(stream);
     localVideoRef.current.srcObject = stream;
-  }
-
-  const handleOnCall = (async (id) => {
-
 
     connection.ontrack = () => {
       console.log('I got some tracks!');
@@ -99,13 +100,6 @@ const Home = ({ nickname, socket }) => {
       if (e.candidate) { socket?.emit('icecandidate', { id: callerId, candidate: new RTCIceCandidate(e.candidate) }); }
     }
 
-    // connection.ontrack = (e) => {
-    //   console.log("Answer got some connection ");
-    //    if (remoteVideoRef.current.srcObject !== e.streams[0]) {
-    //     remoteVideoRef.current.srcObject = e.streams[0];
-    //    }
-    // }
-
     const answer = await connection.createAnswer();
 
     socket?.emit('answer', { id: callerId, answer });
@@ -123,10 +117,6 @@ const Home = ({ nickname, socket }) => {
         { callerId && `Caller: ${callerId}` }
         <video ref={localVideoRef} autoPlay playsInline />
         <video ref={remoteVideoRef} autoPlay playsInline />
-
-        <button onClick={open}>
-          OPEN
-        </button>
       </div>
       <Chat socket={socket} />
     </div>
