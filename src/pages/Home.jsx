@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Chat from "../components/chat/Chat";
+import Settings from "../pages/Settings";
 import UserList from "../components/user/UserList";
 import styles from './index.module.scss';
 
@@ -119,6 +120,7 @@ const Home = ({ nickname, socket }) => {
         <video ref={remoteVideoRef} autoPlay playsInline />
       </div>
       <Chat socket={socket} />
+      <Settings />
     </div>
   );
 }

@@ -9,3 +9,21 @@
   grid-template-columns: 1fr 500px;
   height: 100%;
 }
+
+.settings {
+  display: flex;
+
+  &__left {
+    
+  }
+
+  &__right {
+    video {
+      width: 640px;
+      height: 480px;
+      border: 1px solid gainsboro;
+      border-radius: 4px;
+    }
+  }
+}
+

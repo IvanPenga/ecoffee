@@ -1,0 +1,17 @@
+.settings {
+  
+}
+
+.device {
+  margin: 6px;
+
+  label {
+    background-color: white;
+  }
+
+  &__form {
+    min-width: 360px;
+    width: 360px;
+    position: relative;
+  }
+}

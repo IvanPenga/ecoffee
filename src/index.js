@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Chat from './components/chat/Chat';
-import Message from './components/chat/Message';
 import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
