@@ -4,8 +4,17 @@ import Settings from "../pages/Settings";
 import UserList from "../components/user/UserList";
 import styles from './index.module.scss';
 
+const stun = [
+  'stun:stun.l.google.com:19302',
+  'stun:stun1.l.google.com:19302',
+  'stun:stun2.l.google.com:19302',
+  'stun:stun3.l.google.com:19302',
+  'stun:stun4.l.google.com:19302',
+  'stun:stun.freeswitch.org:3478'
+]
+
 const connection = new RTCPeerConnection({
-  iceServers: [ {urls: "stun:stun.1.google.com:19302"} ]
+  iceServers: [ {urls: stun } ]
 });
 
 const Home = ({ nickname, socket }) => {
@@ -70,10 +79,6 @@ const Home = ({ nickname, socket }) => {
     setStream(stream);
     localVideoRef.current.srcObject = stream;
 
-    connection.ontrack = () => {
-      console.log('I got some tracks!');
-    };
-
     connection.onicecandidate = (e) => {
       if (e.candidate) { socket?.emit('icecandidate', { id, candidate: new RTCIceCandidate(e.candidate) }); }
     }
@@ -96,6 +101,12 @@ const Home = ({ nickname, socket }) => {
   });
 
   const handleAnswer = (async() => {
+
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+    localVideoRef.current.srcObject = stream;
+    stream.getTracks().forEach(track => connection.addTrack(track, stream));
+
 
     connection.onicecandidate = (e) => {
       if (e.candidate) { socket?.emit('icecandidate', { id: callerId, candidate: new RTCIceCandidate(e.candidate) }); }
