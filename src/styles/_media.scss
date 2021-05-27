@@ -1,0 +1,83 @@
+
+$viewport__width--minimum: 320;
+$viewport__width--maximum: 1800;
+
+:export {
+  mobile: 320px;
+  tabletPortrait: 600px;
+  tabletLandscape: 800px;
+  desktop: 1200px;
+  viewportLimit: 1800px;
+}
+
+/**
+* Map of minimum widths for supported screens.
+*/
+$breakpoints: (
+  mobile: 320px,
+  tabletPortrait: 600px,
+  tabletLandscape: 800px,
+  desktop: 1200px,
+  viewportLimit: 1800px,
+);
+
+@function getCondition($expression: string) {
+  $operator: '>';
+  $value: '';
+  $condition: '';
+
+  @each $op in ('>', '>=', '<', '<=') {
+    @if str-index($expression, $op) {
+       $operator: $op;
+       $value: str-slice($expression, str-index($expression, $op) + str-length($op));
+    }
+  }
+
+  @if $operator == '>' {
+    $condition: '(min-width: calc(#{$value} + 1px))';
+  } @else if $operator == '>=' {
+    $condition: '(min-width: #{$value})';
+  } @else if $operator == '<=' {
+    $condition: '(max-width: #{$value})';
+  } @else {
+    $condition: '(max-width: calc((#{$value} - 1px)))';
+  }
+
+  @return $condition;
+}
+
+@function parse($expression) {
+  $value: '';
+  $operator: '>';
+  @each $op in ('>', '>=', '<', '<=') {
+    @if str-index($expression, $op) {
+       $value: str-slice($expression, str-index($expression, $op) + str-length($op));
+       $operator: $op;
+    }
+  }
+  @if map-has-key($breakpoints, $value) {
+    @return getCondition($operator + map-get($breakpoints, $value));
+  }
+  @return getCondition($expression);
+}
+
+/**
+* Custom mixin for creating media-queries with one or two conditions.
+* Based on the solution proposed in (article)[https://css-tricks.com/approaches-media-queries-sass/]
+*
+* Use as: @include mediaQuery(">tabletLandscape", "<desktop") { ... }
+          @include mediaQuery(">desktop") { ... }
+          @include mediaQuery(">350", "<=900") { ... } 
+**/
+@mixin mediaQuery($conditionA, $conditionB: '') {
+  @if $conditionB == '' {
+    @media #{unquote(parse(($conditionA)))}{
+      @content;
+    }
+  } @else {
+    @media #{unquote(parse(($conditionA)))} and #{unquote(parse(($conditionB)))} {
+      @content;
+    }
+  }
+  
+}
