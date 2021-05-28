@@ -8,7 +8,7 @@ import Login from './pages/Login';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Login nickname={'ivanpenga'} />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

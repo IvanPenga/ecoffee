@@ -1,6 +1,5 @@
 import styles from './index.module.scss';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, TextField } from '@material-ui/core';
 import Message from './Message';
 
 const Chat = ({ socket }) => {
@@ -17,6 +16,7 @@ const Chat = ({ socket }) => {
       setMessages((prev) => [...prev, { message, nickname: 'You', sender: true }]);
       inputRef.current.value = '';
       setMessage('');
+      inputRef.current?.focus();
     }
   };
 
@@ -48,8 +48,10 @@ const Chat = ({ socket }) => {
         <div ref={messagesRef} />
       </div>
       <div className={styles.messageInput}>
-        <TextField inputRef={inputRef} onChange={handleOnChange} onKeyDown={handleOnKeyDown} variant="outlined" size="small" />
-        <Button onClick={sendMessage} variant="contained" color="primary">Send</Button>
+        <input ref={inputRef} onChange={handleOnChange} onKeyDown={handleOnKeyDown} />
+        <button onClick={sendMessage}>
+          <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+        </button>
       </div>
     </div>
   );

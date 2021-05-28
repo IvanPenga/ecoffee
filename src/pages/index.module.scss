@@ -5,7 +5,24 @@
 }
 
 .home {
-
+  position: relative;
+  & > header {
+    height: 20px;
+    padding: 12px 12px;
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & > button {
+        width: 40px;
+        height: 40px;
+        appearance: none;
+        border: none;
+        background-color: transparent;
+      }
+    }
+   
+  }
 }
 
 .settings {
