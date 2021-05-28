@@ -2,11 +2,16 @@ import styles from './index.module.scss';
 import { Button, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import image from '../images/coffee-main.jpeg';
+import AvatarModal from '../components/login/AvatarModal';
+import {getAvatar, hashes} from '../avatars';
 
 const Login = ({ onLogin }) => {
 
   const [nickname, setNickname] = useState('');
+  const [avatar, setAvatar] = useState(() => getAvatar(localStorage.getItem('avatar') || hashes[0]));
   const [disabled, setDisabled] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedHash, setSelectedHash] = useState();
 
   const isValidName = (name) => {
     return name && name.length >= 1;
@@ -28,8 +33,19 @@ const Login = ({ onLogin }) => {
     }
   };
 
+  const handleOnAvatarClick = () => {
+    setModalOpen(true);
+  }
+
+  const handleOnAvatarClose = (hash) => {
+    setModalOpen(false);
+    setSelectedHash(hash);
+    setAvatar(getAvatar(hash));
+  }
+
   return (
     <div className={styles.login}>
+      <AvatarModal visible={modalOpen} onClose={handleOnAvatarClose} selectedHash={selectedHash} />
       <img src={image} />
       <div className={styles.login__overlay} />
       <div className={styles.login__wrapper}>
@@ -38,7 +54,12 @@ const Login = ({ onLogin }) => {
           <p>{nickname && `${nickname}, `}ready for some coffee?</p>
         </div>
         <div className={styles.login__login}>
-          <input placeholder="Nickname" onChange={handleOnChange} type="text" maxLength={16} />
+          <div>
+            <button onClick={handleOnAvatarClick} className={styles.login__login__avatar}>
+              <img src={avatar} />
+            </button>
+            <input spellCheck={false} onKeyDown={handleKeyDown} placeholder="Nickname" onChange={handleOnChange} type="text" maxLength={16} />
+          </div>
           <button onClick={handleOnLogin}>Ready</button>
         </div>
       </div>
