@@ -1,16 +1,25 @@
 import styles from './index.module.scss';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import stunServers from '../../webrtc/stun';
+
+const connection = new RTCPeerConnection({
+  iceServers: [ {urls: stunServers } ]
+});
 
 const LocalVideo = ({ play, onPlay }) => {
 
   const localVideoRef = useRef();
 
+  const playLocalStream = useCallback(async() => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+    localVideoRef.current.srcObject = stream;
+    if (onPlay) onPlay(stream);
+  }, []);
+
   useEffect(async() => {
     if (play) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
-        localVideoRef.current.srcObject = stream;
-        if (onPlay) onPlay(stream);
+        playLocalStream();
       } catch(error) {
         console.log(error);
       }

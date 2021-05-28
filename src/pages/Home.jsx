@@ -30,6 +30,7 @@ const Home = ({ nickname, socket }) => {
       <Chat socket={socket} />
       <Overlay visible={overlayVisible} onClick={() => setOverlayVisible(false)}>
         <LocalVideo play={overlayVisible} onPlay={handleOnLocalVideoPlay} />
+        <span></span>
       </Overlay>
     </div>
   );
