@@ -10,7 +10,7 @@ const Chat = ({ socket }) => {
   const inputRef = useRef();
   const messagesRef = useRef();
 
-  const sendMessage = () => {
+  const sendMessage = useCallback(() => {
     if (message) {
       socket?.emit('message', message);
       setMessages((prev) => [...prev, { message, nickname: 'You', sender: true }]);
@@ -18,7 +18,7 @@ const Chat = ({ socket }) => {
       setMessage('');
       inputRef.current?.focus();
     }
-  };
+  }, [message]);
 
   useEffect(() => {
     messagesRef.current?.scrollIntoView();

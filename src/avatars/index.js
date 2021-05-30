@@ -1,7 +1,4 @@
-const url = 'https://robohash.org/';
-const ext = '.png';
-const query = '?size=100x100';
-const hashes = [
+export const hashes = [
   'b9cc3872853c8c3ed85db39771a27fe3',
   'f1e68df62e876e7fd0e51c20b0f4a7f4',
   'ef67ea27213a5744db57dc0fd3a3ba22',
@@ -33,10 +30,3 @@ const hashes = [
   '4dc9c222c5e2599d2b72e8eddc150b94',
   '3d586a434b17e3d1ed7d6eb050a97fb0',
 ];
-
-const getAvatar = (hash) => {
-  return `${url}${hash}${ext}${query}`;
-}
-
-export default getAvatar;
-export { getAvatar, hashes }

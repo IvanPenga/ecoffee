@@ -1,21 +1,37 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Chat from "../components/chat/Chat";
 import styles from './index.module.scss';
 import Overlay from '../components/overlay/Overlay';
 import LocalVideo from "../components/video/LocalVideo";
+import useSocket from "../hooks/useSocket";
+import SelectUserModal from "../components/overlay/SelectUserModal";
 
-const Home = ({ nickname, socket }) => {
+const Home = ({ nickname, socket, avatar }) => {
 
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [stream, setStream] = useState(null);
 
+  const localVideoRef = useRef();
+
+  const users = useSocket(socket);
+
   const handleOnVideoClick = () => {
     setOverlayVisible(true);
+    localVideoRef.current?.play();
   }
 
   const handleOnLocalVideoPlay = (stream) => {
     setStream(stream);
   }
+
+  const handleOnUserSelect = useCallback((id) => {
+    
+  }, []);
+
+  const handleOnModalClose = useCallback(() => {
+    setOverlayVisible(false);
+    localVideoRef.current?.stop();
+  }, []);
 
   return (
     <div className={styles.home}>
@@ -29,7 +45,16 @@ const Home = ({ nickname, socket }) => {
       </header>
       <Chat socket={socket} />
       <Overlay visible={overlayVisible} onClick={() => setOverlayVisible(false)}>
-        <LocalVideo play={overlayVisible} onPlay={handleOnLocalVideoPlay} />
+        <LocalVideo
+          forwardRef={localVideoRef}
+          onPlay={handleOnLocalVideoPlay}
+        />
+        <SelectUserModal 
+          onClose={handleOnModalClose} 
+          visible={overlayVisible} 
+          onSelect={handleOnUserSelect} 
+          users={users} 
+        />
         <span></span>
       </Overlay>
     </div>

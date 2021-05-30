@@ -1,17 +1,16 @@
 import styles from './index.module.scss';
-import { Button, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import image from '../images/coffee-main.jpeg';
 import AvatarModal from '../components/login/AvatarModal';
-import {getAvatar, hashes} from '../avatars';
+import {hashes} from '../avatars';
+import Robohash from '../components/robohash/Robohash';
 
 const Login = ({ onLogin }) => {
 
   const [nickname, setNickname] = useState('');
-  const [avatar, setAvatar] = useState(() => getAvatar(localStorage.getItem('avatar') || hashes[0]));
   const [disabled, setDisabled] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedHash, setSelectedHash] = useState();
+  const [selectedHash, setSelectedHash] = useState(() => localStorage.getItem('avatar') || hashes[0]);
 
   const isValidName = (name) => {
     return name && name.length >= 1;
@@ -29,7 +28,7 @@ const Login = ({ onLogin }) => {
 
   const handleOnLogin = () => {
     if (isValidName(nickname) && onLogin) {
-      onLogin(nickname);
+      onLogin(nickname, selectedHash);
     }
   };
 
@@ -40,7 +39,6 @@ const Login = ({ onLogin }) => {
   const handleOnAvatarClose = (hash) => {
     setModalOpen(false);
     setSelectedHash(hash);
-    setAvatar(getAvatar(hash));
   }
 
   return (
@@ -56,11 +54,17 @@ const Login = ({ onLogin }) => {
         <div className={styles.login__login}>
           <div>
             <button onClick={handleOnAvatarClick} className={styles.login__login__avatar}>
-              <img src={avatar} />
+              <Robohash hash={selectedHash} />
             </button>
-            <input spellCheck={false} onKeyDown={handleKeyDown} placeholder="Nickname" onChange={handleOnChange} type="text" maxLength={16} />
+            <input 
+              spellCheck={false} 
+              onKeyDown={handleKeyDown} 
+              placeholder="Nickname" 
+              onChange={handleOnChange} 
+              type="text" maxLength={16} 
+            />
           </div>
-          <button onClick={handleOnLogin}>Ready</button>
+          <button disabled={disabled} onClick={handleOnLogin}>Ready</button>
         </div>
       </div>
     </div>

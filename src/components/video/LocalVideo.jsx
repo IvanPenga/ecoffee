@@ -1,30 +1,34 @@
 import styles from './index.module.scss';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import stunServers from '../../webrtc/stun';
 
 const connection = new RTCPeerConnection({
   iceServers: [ {urls: stunServers } ]
 });
 
-const LocalVideo = ({ play, onPlay }) => {
+const LocalVideo = ({ onPlay, forwardRef }) => {
 
   const localVideoRef = useRef();
+  const [stream, setStream] = useState();
+
+  const stopLocalStream = useCallback(() => {
+    console.log('Stopping stream', stream);
+    stream?.getTracks().forEach((track) => track.stop());
+    localVideoRef.current.srcObject = null;
+  }, [stream]);
 
   const playLocalStream = useCallback(async() => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
-    localVideoRef.current.srcObject = stream;
-    if (onPlay) onPlay(stream);
-  }, []);
+    console.log('Playing...');
+    const userMedia = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+    localVideoRef.current.srcObject = userMedia;
+    if (onPlay) onPlay(userMedia);
+    setStream(userMedia);
+  }, [stream]);
 
-  useEffect(async() => {
-    if (play) {
-      try {
-        playLocalStream();
-      } catch(error) {
-        console.log(error);
-      }
-    }
-  }, [play]);
+  useImperativeHandle(forwardRef, () => ({
+    stop: stopLocalStream,
+    play: playLocalStream
+  }), [stopLocalStream, playLocalStream]);
 
   return (
     <video className={styles.localVideo} ref={localVideoRef} autoPlay playsInline />

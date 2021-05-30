@@ -11,5 +11,79 @@
 }
 
 .visible {
-  display: block;
+  display: block !important;
+}
+
+.selectUserModal {
+  position: absolute;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 320px;
+  max-height: fit-content;
+  border-radius: 12px;
+  overflow: auto;
+  display: none;
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+
+  &__nobody {
+    width: 100%;
+    border: none;
+    outline: none;
+    height: 40px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    &:hover {
+      background: rgba(255, 0, 0, 0.521);
+    }
+
+  }
+
+  & > header {
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  &__user {
+    cursor: pointer;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-grow: 1;
+    overflow: hidden;
+    
+    ::after {
+      // visibility: hidden;
+      content: "Call";
+      position: absolute;
+      right: -40px;
+      transition: right 0.3s ease-in-out;
+    }
+
+    & > span {
+      margin-left: 12px;
+    }
+    & > img {
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      width: 75px;
+      height: 75px;
+    }
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+      ::after {
+        right: 30px;
+      }
+    }
+  }
 }

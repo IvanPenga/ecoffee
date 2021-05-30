@@ -10,24 +10,33 @@ const App = () => {
 
   const [socket, setSocket] = useState();
   const [nickname, setNickname] = useState(() => localStorage.getItem('nickname'));
+  const [avatarHash, setAvatarHash] = useState(() => localStorage.getItem('avatar'));
 
-  const handleOnLogin = (nickname) => {
+  const handleOnLogin = (nickname, selectedHash) => {
     if (nickname) {
       localStorage.setItem('nickname', nickname);
       setNickname(nickname);
+    }
+    console.log('LOGIN', nickname, selectedHash);
+    if (selectedHash) {
+      localStorage.setItem('avatar', selectedHash);
+      setAvatarHash(selectedHash);
     }
   };
 
   useEffect(() => {
     setSocket(socketIOClient(host, {
       withCredentials: true,
-      extraHeaders: { 'ecoffee-nickname': nickname }
+      extraHeaders: { 
+        'ecoffee-nickname': nickname,
+        'ecoffee-avatar': avatarHash
+      }
     }));
-  }, [nickname]);
+  }, [nickname, avatarHash]);
 
   return (
     <div className={styles.app}>
-      { nickname ? <Home nickname={nickname} socket={socket} /> : <Login onLogin={handleOnLogin} /> }
+      { nickname ? <Home avatar={avatarHash} nickname={nickname} socket={socket}  /> : <Login onLogin={handleOnLogin} /> }
     </div>
   );
 }
