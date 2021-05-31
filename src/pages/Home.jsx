@@ -5,9 +5,16 @@ import Overlay from '../components/overlay/Overlay';
 import LocalVideo from "../components/video/LocalVideo";
 import useSocket from "../hooks/useSocket";
 import SelectUserModal from "../components/overlay/SelectUserModal";
+import classnames from 'classnames';
+
+const STATE = {
+  Ringing: 0
+}
 
 const Home = ({ nickname, socket, avatar }) => {
 
+  const [callState, setCallState] = useState(null);
+  const [calleeId, setCalleeId] = useState(null);
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [stream, setStream] = useState(null);
 
@@ -20,18 +27,27 @@ const Home = ({ nickname, socket, avatar }) => {
     localVideoRef.current?.play();
   }
 
-  const handleOnLocalVideoPlay = (stream) => {
+  const handleOnLocalVideoPlay = useCallback((stream) => {
     setStream(stream);
-  }
+  }, []);
 
-  const handleOnUserSelect = useCallback((id) => {
-    
+  const handleOnUserSelect = useCallback((id, nickname, avatar) => {
+    setCalleeId(id);
+    setCallState(STATE.Ringing);
   }, []);
 
   const handleOnModalClose = useCallback(() => {
+    setStream(null);
     setOverlayVisible(false);
     localVideoRef.current?.stop();
   }, []);
+
+  useEffect(() => {
+    switch(callState) {
+      case STATE.Ringing: return;
+      default: return;
+    }
+  }, [callState]);
 
   return (
     <div className={styles.home}>
@@ -44,17 +60,21 @@ const Home = ({ nickname, socket, avatar }) => {
         </div>
       </header>
       <Chat socket={socket} />
-      <Overlay visible={overlayVisible} onClick={() => setOverlayVisible(false)}>
+      <Overlay visible={overlayVisible} onClick={handleOnModalClose}>
         <LocalVideo
+          small={callState === STATE.Ringing}
           forwardRef={localVideoRef}
           onPlay={handleOnLocalVideoPlay}
         />
         <SelectUserModal 
           onClose={handleOnModalClose} 
-          visible={overlayVisible} 
+          visible={stream}
           onSelect={handleOnUserSelect} 
           users={users} 
         />
+        <span className={classnames(styles.home__loading, {[styles.home__loading__visible]: stream === null})}>
+          Loading...
+        </span>
         <span></span>
       </Overlay>
     </div>

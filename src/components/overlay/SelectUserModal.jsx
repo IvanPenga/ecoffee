@@ -10,11 +10,11 @@ const SelectUserModal = ({ visible, onSelect, onClose, users = [] }) => {
   }, [onClose]);
 
   return (
-    <div className={classnames(styles.selectUserModal, { [styles.visible]: visible })}>
+    <div className={classnames(styles.selectUserModal, { [styles.selectUserModal__visible]: visible })}>
       <header>Who you gonna call?</header>
       {users.map(({id, nickname, avatar}) => (
         id && nickname && (
-          <div onClick={() => onSelect(id)} key={id} className={styles.selectUserModal__user}>
+          <div onClick={() => onSelect(id, nickname, avatar)} key={id} className={styles.selectUserModal__user}>
             <Robohash hash={avatar} />
             <span>{nickname}</span>
           </div>

@@ -7,4 +7,21 @@
   margin: auto;
   display: block;
   max-width: 800px;
+  transition: all 1s ease-in-out;
+
+  &__small {
+    max-width: 320px;
+    width: 320px;
+    height: 270px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    @include mediaQuery("<tabletPortrait") {
+      max-width: 180px;
+      max-height: 140px;
+      margin: 12px;
+      border-radius: 12px;
+    }
+  }
 }

@@ -25,13 +25,15 @@ const App = () => {
   };
 
   useEffect(() => {
-    setSocket(socketIOClient(host, {
-      withCredentials: true,
-      extraHeaders: { 
-        'ecoffee-nickname': nickname,
-        'ecoffee-avatar': avatarHash
-      }
-    }));
+    if (nickname && avatarHash) {
+      setSocket(socketIOClient(host, {
+        withCredentials: true,
+        extraHeaders: { 
+          'ecoffee-nickname': nickname,
+          'ecoffee-avatar': avatarHash
+        }
+      }));
+    }
   }, [nickname, avatarHash]);
 
   return (

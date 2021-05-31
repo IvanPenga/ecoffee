@@ -20,10 +20,30 @@
         border: none;
         background-color: transparent;
       }
+    }   
+  }
+
+  &__loading {
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 60%;
+    left: 40%;
+    font-size: 1.5rem;
+    display: none;
+
+    &__visible {
+      display: inline;
     }
-   
   }
 }
+
+
+
+
+
+
 
 .settings {
   display: flex;

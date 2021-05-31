@@ -11,13 +11,13 @@
 }
 
 .visible {
-  display: block !important;
+  display: block;
 }
 
 .selectUserModal {
   position: absolute;
   z-index: 101;
-  top: 0;
+  top: 20%;
   left: 0;
   right: 0;
   bottom: 0;
@@ -25,10 +25,14 @@
   max-height: fit-content;
   border-radius: 12px;
   overflow: auto;
-  display: none;
   background-color: whitesmoke;
-  display: flex;
   flex-direction: column;
+  margin: auto;
+  display: none;
+
+  &__visible {
+    display: flex;
+  }
 
   &__nobody {
     width: 100%;
