@@ -1,9 +1,9 @@
 import styles from './index.module.scss';
 import React, { useState } from 'react';
-import image from '../images/coffee-main.jpeg';
-import AvatarModal from '../components/login/AvatarModal';
-import {hashes} from '../avatars';
-import Robohash from '../components/robohash/Robohash';
+import image from '../../images/coffee-main.jpeg';
+import AvatarModal from '../../components/login/AvatarModal';
+import {hashes} from '../../avatars';
+import Robohash from '../../components/robohash/Robohash';
 
 const Login = ({ onLogin }) => {
 
@@ -48,23 +48,25 @@ const Login = ({ onLogin }) => {
       <div className={styles.login__overlay} />
       <div className={styles.login__wrapper}>
         <div className={styles.login__title}>
-          <h1>Hello</h1>
-          <p>{nickname && `${nickname}, `}ready for some coffee?</p>
+          <div>
+            <h1>Hello</h1>
+            <p>{nickname && `${nickname}, `}ready for some coffee?</p>
+          </div>
+          <button onClick={handleOnAvatarClick} className={styles.login__login__avatar}>
+            <Robohash hash={selectedHash} />
+          </button>
         </div>
         <div className={styles.login__login}>
           <div>
-            <button onClick={handleOnAvatarClick} className={styles.login__login__avatar}>
-              <Robohash hash={selectedHash} />
-            </button>
             <input 
               spellCheck={false} 
               onKeyDown={handleKeyDown} 
               placeholder="Nickname" 
               onChange={handleOnChange} 
-              type="text" maxLength={16} 
+              type="text" maxLength={14} 
             />
           </div>
-          <button disabled={disabled} onClick={handleOnLogin}>Ready</button>
+          <button type="submit" disabled={disabled} onClick={handleOnLogin}>Ready</button>
         </div>
       </div>
     </div>

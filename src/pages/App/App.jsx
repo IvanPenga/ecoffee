@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Login from "./Login";
-import Home from './Home';
+import Login from '../Login/Login';
+import Home from '../Home';
 import socketIOClient from 'socket.io-client';
 import styles from './index.module.scss';
 

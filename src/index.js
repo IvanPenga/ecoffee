@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './pages/App';
+import App from './pages/App/App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import WebRTCContext from './context/WebRTCContext';

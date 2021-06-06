@@ -9,10 +9,10 @@ const stunServers = [
   'stun:stun.freeswitch.org:3478'
 ];
 
-const WebRTCContext = React.createContext(
-  new RTCPeerConnection({
-    iceServers: [ { urls: stunServers } ]
-  })
-);
+const connection = new RTCPeerConnection({
+  iceServers: [ { urls: stunServers } ]
+});
+
+const WebRTCContext = React.createContext(connection);
 
 export default WebRTCContext;
