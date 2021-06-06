@@ -1,50 +1,46 @@
 import styles from './index.module.scss';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Message from './Message';
+import useSocketMessages from '../../hooks/useSocketMessages';
 
 const Chat = ({ socket }) => {
 
   const [message, setMessage] = useState();
-  const [messages, setMessages] = useState([]);
+  const { messages, sendMessage } = useSocketMessages(socket);
 
   const inputRef = useRef();
   const messagesRef = useRef();
 
-  const sendMessage = useCallback(() => {
+  const send = useCallback(() => {
     if (message) {
-      socket?.emit('message', message);
-      setMessages((prev) => [...prev, { message, nickname: 'You', sender: true }]);
+      sendMessage(message);
       inputRef.current.value = '';
       setMessage('');
       inputRef.current?.focus();
     }
-  }, [message]);
+  }, [message, sendMessage]);
 
   useEffect(() => {
     messagesRef.current?.scrollIntoView();
   }, [messages]);
 
   const handleOnKeyDown = useCallback(({ key }) => {
-    if (key === 'Enter') { sendMessage(); };
-  }, [sendMessage]);
+    if (key === 'Enter') { send(); };
+  }, [send]);
 
   const handleOnChange = useCallback(({ target }) => {
     setMessage(target.value);
   }, []);
 
-  useEffect(() => {
-    const onMessage = (message) => setMessages((prev) => [...prev, message]); 
-    socket?.on('message', onMessage);
-
-    return () => {
-      socket?.off('message', onMessage);
-    }
-  }, [socket]);
+  const chatMessages = useMemo(() => 
+    messages.map((message) => 
+      <Message key={`${message.message}${message.nickname}${message.timestamp}`} {...message} />)
+  , [messages]);
 
   return (
     <div className={styles.chat}>
       <div className={styles.messages}>
-        { messages.map((message) => <Message {...message} />) }
+        { chatMessages }
         <div ref={messagesRef} />
       </div>
       <div className={styles.messageInput}>

@@ -1,13 +1,13 @@
 @import "../../styles/main.module.scss";
 
-.localVideo {
+.localVideo, .remoteVideo {
   width: 100%;
   height: 100vh;
   object-fit: cover;
   margin: auto;
   display: block;
   max-width: 800px;
-  transition: all 1s ease-in-out;
+  transition: all 0.5s ease-in-out;
 
   &__small {
     max-width: 320px;
@@ -20,6 +20,8 @@
     @include mediaQuery("<tabletPortrait") {
       max-width: 180px;
       max-height: 140px;
+      height: 140px;
+      width: 180px;
       margin: 12px;
       border-radius: 12px;
     }

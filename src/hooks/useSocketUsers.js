@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useSocket = (socket) => {
+const useSocketUsers = (socket) => {
 
   const [users, setUsers] = useState([]);
   
@@ -27,4 +27,4 @@ const useSocket = (socket) => {
   return users;
 }
 
-export default useSocket;
+export default useSocketUsers;

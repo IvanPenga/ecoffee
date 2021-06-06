@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import Home from './pages/Home';
-import Login from './pages/Login';
+import WebRTCContext from './context/WebRTCContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <WebRTCContext.Provider>
+      <App />
+    </WebRTCContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

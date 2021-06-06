@@ -1,13 +1,6 @@
 import styles from './index.module.scss';
 import React, { useCallback, useImperativeHandle, useRef, useState } from 'react';
-import stunServers from '../../webrtc/stun';
 import classnames from 'classnames';
-
-const connection = new RTCPeerConnection({
-  iceServers: [ {urls: stunServers } ]
-});
-
-let controller = new AbortController();
 
 const LocalVideo = ({ onPlay, forwardRef, small }) => {
 
@@ -25,7 +18,8 @@ const LocalVideo = ({ onPlay, forwardRef, small }) => {
     localVideoRef.current.srcObject = media;
     if (onPlay) onPlay(media);
     setStream(media);
-  }, [stream]);
+    return media;
+  }, [stream, onPlay]);
 
   useImperativeHandle(forwardRef, () => ({
     stop: stopLocalStream,

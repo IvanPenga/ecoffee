@@ -4,11 +4,23 @@
 
 }
 
+.controls {
+  position: fixed;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
 .home {
   position: relative;
   & > header {
-    height: 20px;
+    height: 64px;
     padding: 12px 12px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+
     & > div {
       display: flex;
       align-items: center;
@@ -29,7 +41,8 @@
     left: 0;
     right: 0;
     top: 60%;
-    left: 40%;
+    max-width: 120px;
+    margin: auto;
     font-size: 1.5rem;
     display: none;
 
