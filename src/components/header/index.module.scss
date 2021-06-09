@@ -1,0 +1,27 @@
+header {
+  box-sizing: border-box;
+  height: 64px;
+  padding: 12px 12px;
+  position: sticky;
+  top: 0;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .icons {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    & > button {
+      appearance: none;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      height: 40px;
+      width: 40px;
+    }
+  }   
+}

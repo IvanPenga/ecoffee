@@ -2,6 +2,7 @@ import styles from './index.module.scss';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Message from './Message';
 import useSocketMessages from '../../hooks/useSocketMessages';
+import SendIcon from '@material-ui/icons/Send';
 
 const Chat = ({ socket }) => {
 
@@ -45,8 +46,8 @@ const Chat = ({ socket }) => {
       </div>
       <div className={styles.messageInput}>
         <input ref={inputRef} onChange={handleOnChange} onKeyDown={handleOnKeyDown} />
-        <button onClick={sendMessage}>
-          <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+        <button onClick={send}>
+          <SendIcon />
         </button>
       </div>
     </div>

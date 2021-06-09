@@ -9,17 +9,17 @@ const host = process.env.REACT_APP_SIGNALING_SERVER;
 const App = () => {
 
   const [socket, setSocket] = useState();
-  const [nickname, setNickname] = useState(() => localStorage.getItem('nickname'));
-  const [avatarHash, setAvatarHash] = useState(() => localStorage.getItem('avatar'));
+  const [nickname, setNickname] = useState(() => sessionStorage.getItem('nickname'));
+  const [avatarHash, setAvatarHash] = useState(() => sessionStorage.getItem('avatar'));
 
   const handleOnLogin = (nickname, selectedHash) => {
     if (nickname) {
-      localStorage.setItem('nickname', nickname);
+      sessionStorage.setItem('nickname', nickname);
       setNickname(nickname);
     }
     console.log('LOGIN', nickname, selectedHash);
     if (selectedHash) {
-      localStorage.setItem('avatar', selectedHash);
+      sessionStorage.setItem('avatar', selectedHash);
       setAvatarHash(selectedHash);
     }
   };

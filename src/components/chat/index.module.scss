@@ -11,6 +11,31 @@
   height: calc(100vh - 64px);
   position: sticky;
   bottom: 0;
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 12px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 12px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #999;
+  }
+
+  scrollbar-width: 6px;
+  scrollbar-color: #aaa #f1f1f1;
 }
 
 .messageInput {
@@ -33,6 +58,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: transparent;
+    cursor: pointer;
   }
 }
 

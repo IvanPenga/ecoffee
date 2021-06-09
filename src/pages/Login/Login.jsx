@@ -10,7 +10,7 @@ const Login = ({ onLogin }) => {
   const [nickname, setNickname] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedHash, setSelectedHash] = useState(() => localStorage.getItem('avatar') || hashes[0]);
+  const [selectedHash, setSelectedHash] = useState(() => sessionStorage.getItem('avatar') || hashes[0]);
 
   const isValidName = (name) => {
     return name && name.length >= 1;
